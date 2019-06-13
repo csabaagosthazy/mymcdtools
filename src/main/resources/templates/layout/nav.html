@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+	<div th:fragment="navigation" class="navbar navbar-inverse navbar-fixed-top">
+	  <div class="container-fluid">
+	    <div class="navbar-header">
+	      <a class="navbar-brand" href="#">WebSiteName</a>
+	    </div>
+	    <ul class="nav navbar-nav">
+	      <li class="active"><a href="#">Home</a></li>
+	      <li><a sec:authorize="isAuthenticated()" href="#">Page 1</a></li>
+	      <li><a sec:authorize="isAuthenticated()" href="#">Page 2</a></li>
+		  <li class="dropdown">
+	        <a sec:authorize="isAuthenticated()" class="dropdown-toggle" data-toggle="dropdown" href="#">Page 1
+	        <span class="caret"></span></a>
+	        <ul class="dropdown-menu">
+	          <li><a href="#">Page 1-1</a></li>
+	          <li><a href="#">Page 1-2</a></li>
+	          <li><a href="#">Page 1-3</a></li>
+	        </ul>
+	      </li>
+	    </ul>
+	    <ul class="nav navbar-nav navbar-right">
+	      <li><a sec:authorize="isAnonymous()" th:href="@{/login}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+	      <li><a sec:authorize="isAuthenticated()" th:href="@{/logout}"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+	      <li><a sec:authorize="isAnonymous()" th:href="@{/registration}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+	      <li><a sec:authorize="isAuthenticated()" th:href="@{/userprofile}"><span class="glyphicon glyphicon-user"></span><span sec:authentication="name">Name</span></a></li>
+	    </ul>
+	  </div>
+	</div>
+
+</body>
+			<form th:action="@{/logout}" method="post">
+				<input type="submit" value="Sign out" class="btn btn-sm btn-danger">
+			</form>
+
+</html>
