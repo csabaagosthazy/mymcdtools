@@ -87,11 +87,16 @@ public class UserController {
 		return "redirect:/myschedule?list";
 	}
 	
+	@RequestMapping("/admin")
+	public String adminHome(){
+		log.debug("Loading index page");
+		return "/pages/admin/admin";
+	}
 	
 	@GetMapping("/test")
 	public String test(){
 		log.debug("Loading index page");
-		emailService.sendMessage("from@smtp.mailtrap.io", "agosthazy.csaba@gmail.com", "Test", "test");
+		emailService.sendMessage("from@smtp.mailtrap.io", "mymcdtools.dev@gmail.com", "Test", "test");
 		return "/pages/index";
 	}
 
