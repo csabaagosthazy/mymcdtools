@@ -12,9 +12,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.springframework.stereotype.Component;
+
 import javax.persistence.JoinColumn;
 
+@Component
 @Entity
 @Table( name="users" )
 public class User {
@@ -47,6 +52,19 @@ public class User {
 	)
 	private Set<Role> roles = new HashSet<Role>();
 	
+    @OneToMany(mappedBy="userId", cascade = CascadeType.ALL)
+    Set<Schedule> schedules = new HashSet<Schedule>();
+	
+	public Set<Schedule> getSchedules() {
+		return schedules;
+	}
+
+
+	public void setSchedules(Set<Schedule> schedules) {
+		this.schedules = schedules;
+	}
+
+
 	public User() {}
 		
 

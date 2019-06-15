@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://thymeleaf.org"
+	xmlns:sec="http://thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<title>My schedule</title>
+<object th:replace="layout/head :: head">...</object>
+</head>
+<body>
+	<div class="container">
+		<h2>
+			<br>
+			<br>
+		</h2>
+		<div class="panel panel-default">
+			<div th:replace="layout/header :: header" class="panel-heading">Panel Heading</div>
+			<div th:replace="layout/nav :: navigation">...</div>
+			<div class="panel-body">
+				<div class='container' style='margin-top: 100px;'>
+					<form th:action="@{/myschedule}" method="post" th:object="${dates}">
+						<h2>Please set the dates</h2>
+						<label for="from" class="control-label">From:</label> 
+						<input type='date' class="form-control" id="from" name="fromdate" style='width: 170px;'><br> 
+						<label for="to" class="control-label">To:</label> 
+						<input type='date' class="form-control" id="to" name="todate" data-provide="datepicker" style='width: 170px;'><br>
+
+						<button type="submit" class="btn btn-success">Go</button>
+					
+						<div th:if="${param.list}" th:object="${datelist}">
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th>Date</th>
+	<!-- 									<th>Start time</th> -->
+	<!-- 									<th>End time</th> -->
+	<!-- 									<th></th> -->
+	<!-- 									<th></th> -->
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:if="${dates == null}">
+							            <td colspan="2"> Dates not exists! </td>
+							        </tr>
+							        <tr th:if="${dates != null}">
+							            <td th:if="${dates.empty}"> Dates empty list </td>
+							        </tr>
+							        <tr th:if="${datelist == null}">
+							            <td colspan="2"> Datelist not exists! </td>
+							        </tr>
+							        <tr th:if="${datelist != null}">
+							            <td th:if="${dates.empty}"> Datelist empty list </td>
+							        </tr>
+									<tr th:each="date: ${datelist}">
+										<td th:date="${date}"> Hello</td>
+	<!-- 									<td><input -->
+	<!-- 										th:field="*{books[__${itemStat.index}__].author}" /></td> -->
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div th:replace="layout/footer :: footer" class="panel-footer">Panel
+				Footer</div>
+		</div>
+	</div>
+</body>
+<script th:src="@{javascript/index.js}"></script>
+
+</html>

@@ -2,6 +2,7 @@ package fi.haagahelia.mymcdtools.service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Properties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,13 +27,23 @@ public class EmailService {
 	private JavaMailSenderImpl mailSender;
 
 	// email send function
-	public void sendMessage(String emailFrom, String emailTo, String subject, String content) {
+	public boolean sendMessage(String emailFrom, String emailTo, String subject, String content) {
+		
+		final Properties properties = new Properties();
+		properties.put("mail.transport.protocol", "smtp");
+		properties.put("mail.smtp.auth", Boolean.TRUE);
+		properties.put("mail.smtp.starttls.enable", Boolean.TRUE);
+		properties.put("mail.smtp.quitwait", Boolean.FALSE);
+		properties.put("mail.smtp.socketFactory.fallback", Boolean.FALSE);
+		properties.put("mail.debug", "true");
 		
 		mailSender = new JavaMailSenderImpl();
         mailSender.setHost(emailConf.getHost());
         mailSender.setPort(emailConf.getPort());
         mailSender.setUsername(emailConf.getUsername());
         mailSender.setPassword(emailConf.getPassword());
+        mailSender.setDefaultEncoding("UTF-8");
+        mailSender.setJavaMailProperties(properties);
         
         log.debug("Get email attributes");
         log.debug("Host: "+emailConf.getHost()+
@@ -54,11 +65,13 @@ public class EmailService {
 			mailSender.send(email);
 			
 			log.debug("Email successfully sent sent");
+			return true;
 		} catch (Exception e) {
 			log.error("Error sending email: "+
 					   LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"))+" "+
 					   emailTo + " \n " + 
 					   "reason: "+e);
+			return false;
 		}
 		
 

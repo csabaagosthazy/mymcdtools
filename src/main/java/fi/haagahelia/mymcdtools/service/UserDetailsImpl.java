@@ -68,7 +68,7 @@ public class UserDetailsImpl implements UserDetails {
 
 	@Override
 	public boolean isEnabled() {
-		log.debug("Get user permission: enabled");
+		log.debug("Get user permission: Is enabled");
 		return user.getEnabledUser();
 	}
 

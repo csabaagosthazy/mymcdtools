@@ -132,19 +132,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
 	@Override
-	public String userActivation(String code) {
+	public boolean userActivation(String code) {
 		User user = uRepo.findByActivation(code);
 		log.debug("Activate user");
 		if (user == null) {
 			log.debug("Activation failed");
-		    return "noresult";
+		    return false;
 		}
 		
 		user.setEnabledUser(true);
 		user.setActivation("");
 		uRepo.save(user);
 		log.debug("Activation success :"+user);
-		return "ok";
+		return true;
 	}
 
 	

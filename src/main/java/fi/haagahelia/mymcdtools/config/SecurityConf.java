@@ -60,7 +60,7 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 				.antMatchers("pages/index", "pages/index/**").hasAnyAuthority()
 				.antMatchers("/admin/**").hasAuthority("ADMIN")
-				.antMatchers("/", "/registration", "/reg", "/activation/**", "/css/**", "/javascript/**", "/images/**","/test").permitAll()
+				.antMatchers("/", "/registration", "/reg", "/activation/**", "/css/**", "/javascript/**", "/images/**", "/error", "/test").permitAll()
 				.anyRequest().authenticated()
 				.and()
 				.csrf().ignoringAntMatchers("/admin/db/**")

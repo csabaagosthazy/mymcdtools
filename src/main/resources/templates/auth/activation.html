@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en"
+	  xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://thymeleaf.org"
+	  xmlns:sec="http://thymeleaf.org/thymeleaf-extras-springsecurity5">
+	<head>
+		 <title>Activation</title>
+		 <object th:replace="layout/head :: head">...</object>
+	</head>
+    <body>
+		<div class="container">
+		  <h2><br><br></h2>
+		  <div class="panel panel-default">
+		    <div th:replace="layout/header :: header" class="panel-heading">Panel Heading</div>
+		    <div th:replace="layout/nav :: navigation">...</div>
+		    <div class="panel-body">
+			<div th:if="${param.actsuccess}" class="alert alert-success" >
+				<h2 class="text-center">
+				Username activated successfully<br><br>
+				Now you can log in
+				</h2>
+			</div>
+			<div th:if="${param.acterror}" class="alert alert-danger">
+				<h2 class="text-center">
+				Username cannot be activated<br><br>
+				Please contact administrator!
+				</h2>
+			</div>
+			</div>
+		    <div th:replace="layout/footer :: footer" class="panel-footer">Panel Footer</div>
+		  </div>
+		</div>
+    </body>
+    <script th:src="@{javascript/index.js}"></script>
+    
+</html>

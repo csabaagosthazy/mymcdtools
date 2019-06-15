@@ -1,12 +1,16 @@
 package fi.haagahelia.mymcdtools;
 
+import java.util.Date;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import fi.haagahelia.mymcdtools.domain.Role;
 import fi.haagahelia.mymcdtools.domain.User;
@@ -14,6 +18,7 @@ import fi.haagahelia.mymcdtools.repo.RoleRepository;
 import fi.haagahelia.mymcdtools.repo.UserRepository;
 
 
+//@ComponentScan({"java.util.Date"})
 @SpringBootApplication
 public class MymcdtoolsApplication {
 
@@ -24,6 +29,10 @@ public class MymcdtoolsApplication {
 		SpringApplication.run(MymcdtoolsApplication.class, args);
 	}
 	
+	@Bean
+    public Date date (){
+        return new Date();
+    }
 	@Profile("dev")
 	@Bean
 	public CommandLineRunner userAddDev(UserRepository uRepo, RoleRepository rRepo ) {
@@ -81,6 +90,7 @@ public class MymcdtoolsApplication {
 
 		};
 	}
+	
 	
 
 }

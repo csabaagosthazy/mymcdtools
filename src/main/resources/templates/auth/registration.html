@@ -15,16 +15,22 @@
 		    <div th:replace="layout/nav :: navigation">...</div>
 		    <div class="panel-body">		
 				 <div class="col-md-4 col-md-offset-4">
-				 	<div th:if="${param.success}" class="alert alert-info">
+				 	<div th:if="${param.regsuccess}" class="alert alert-info">
 						<h3>The registration was successful!</h3><br>
 						The activation email sent to your email address.<br>
 						Please activate your account with the activation link.<br>
 						Until then your account is inactive.
 					</div>
-					<div th:if="${param.regerror}" class="error-message">
+					<div th:if="${param.regsuccess_emailerr}" class="alert alert-warning">
+						<h3>There was some problem during activation!</h3><br>
+						Activation email cannot be sent,<br>
+						Please contact the administrator!
+					</div>
+					<div th:if="${param.regerror}" class="alert alert-warning">
 						<h3>There was something problem during the registration</h3><br>
 						Please try again later or contact the administrator!
 					</div>
+					
 					
             <h1>Registration</h1>
             <form th:action="@{/reg}" th:object="${user}" method="post">

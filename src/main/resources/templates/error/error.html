@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en"
+	  xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://thymeleaf.org"
+	  xmlns:sec="http://thymeleaf.org/thymeleaf-extras-springsecurity5">
+	<head>
+		 <title>Error</title>
+		 <object th:replace="layout/head :: head">...</object>
+	</head>
+<body>
+	<h2 class="text-center">Oops! Something happened</h2>
+	<div th:if="${param.notfound}" class="text-center">
+		<h3>There is not such a thing what you are looking for!</h3><br>
+		<div class="media">
+			<img th:src="@{images/tenor.gif}" class="rounded" style="width: 300px; height: 300px;">
+		</div>
+	</div>
+	<div th:if="${param.forbidden}" class="text-center">
+		<h3>It seems you don't have permission!</h3><br>
+		<div class="media">
+			<img th:src="@{images/rstrarea.jpg}" class="rounded" style="width: 400px; height: 300px;">
+		</div>
+	</div>
+	<div th:if="${param.error}" class="text-center">
+		<h3>This should not happen</h3><br>
+		<div class="media">
+			<img th:src="@{images/notgoodsign.jpg}" class="rounded" style="width: 300px; height: 300px;">
+		</div>
+	</div>
+	<div class="text-center">
+		<br><br>
+  		<a th:href="@{/}" type="button" class="btn btn-primary">Back to home</a>
+	</div>
+</body>
+</html>

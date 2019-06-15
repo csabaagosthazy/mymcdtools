@@ -15,5 +15,3 @@ var output_from = '-' + aphorisms[randIndex].from;
 
 document.getElementById("divOutputap").innerHTML = outputap;
 document.getElementById("divOutputfrom").innerHTML = output_from;
-
-

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import fi.haagahelia.mymcdtools.config.EmailConf;
 import fi.haagahelia.mymcdtools.domain.User;
 import fi.haagahelia.mymcdtools.service.EmailService;
 import fi.haagahelia.mymcdtools.service.UserServiceImpl;
@@ -30,12 +31,15 @@ public class RegController {
     private UserServiceImpl userServiceImpl;
     
     private EmailService emailService;
+    
+    private EmailConf emailConf;
 
     
 	@Autowired
-	public RegController(UserServiceImpl userServiceImpl, EmailService emailService) {
+	public RegController(UserServiceImpl userServiceImpl, EmailService emailService, EmailConf emailConf) {
 		this.userServiceImpl = userServiceImpl;
 		this.emailService = emailService;
+		this.emailConf = emailConf;
 	}
 	
     @ModelAttribute("user")
@@ -81,37 +85,49 @@ public class RegController {
         userServiceImpl.registerUser(userValid);
         //get activation code and set up email message
         String code = "";
-        String emailFrom ="from@smtp.mailtrap.io";
+        String emailFrom = "";
         String emailTo = "";
         String message = "";
+        boolean emailSuccess = false;
+        
         
         User userToActivate = userServiceImpl.findByUsername(userValid.getUsername());
         
         if(userToActivate != null) {
         	code = userToActivate.getActivation();
         	emailTo = userToActivate.getEmail();
+        	emailFrom = emailConf.getUsername();
         	String url = String.format("%s://%s:%d/activation/",request.getScheme(),  request.getServerName(), request.getServerPort());
         	message = "Dear "+ userToActivate.getUsername()+"\n\n"+
         			"Your registration was successful on MCD tools website\n"+
         			"Please use the activation link below to enable your account!\n\n"+
         			"Activation link: "+ url +code;
-        	
-        	emailService.sendMessage(emailFrom, emailTo, "My MCD tools activiation", message);
-        	
+        	//sending email and check if it sent successfully
+        	emailSuccess = emailService.sendMessage(emailFrom, emailTo, "My MCD tools activiation", message);
+        	if(emailSuccess) log.info("Activation email sent successfully");
+        	else log.info("Activation email had some problem for user: "+userToActivate.getUsername());
         	
         }else return "redirect:/registration?regerror";
         
         
-        
-        
-        return "redirect:/registration?success";
+        if(!emailSuccess) return "redirect:/registration?regsuccess_emailerr";
+        else return "redirect:/registration?regsuccess";
     }
+	
+	@RequestMapping("/activation")
+	public String actiVationResult(){
+		log.debug("Loading activation result page");
+		return "/auth/activation";
+	}
 	
 	 @RequestMapping(path = "/activation/{code}", method = RequestMethod.GET)
 	 public String activation(@PathVariable("code") String code, HttpServletResponse response) {
-	 String result = userServiceImpl.userActivation(code);
+	 boolean result = userServiceImpl.userActivation(code);
 	 log.debug("User activation"+result);
-	 return "auth/login";
+	 
+	 if(result) return "/activation?actsuccess";
+	 else return "/activation?acterror";
+
 	 }
 
 

@@ -15,6 +15,6 @@ public interface UserService extends UserDetailsService {
 
 	public User findByEmail(String email);
 
-	public String userActivation(String code);
+	public boolean userActivation(String code);
 	
 }
