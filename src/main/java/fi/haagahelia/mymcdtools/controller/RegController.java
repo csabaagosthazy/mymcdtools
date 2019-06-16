@@ -125,8 +125,8 @@ public class RegController {
 	 boolean result = userServiceImpl.userActivation(code);
 	 log.debug("User activation"+result);
 	 
-	 if(result) return "/activation?actsuccess";
-	 else return "/activation?acterror";
+	 if(result) return "redirect:/activation?actsuccess";
+	 else return "redirect:/activation?acterror";
 
 	 }
 
